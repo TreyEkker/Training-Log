@@ -341,7 +341,15 @@
 // =========================
 const STORAGE_KEY = "training-tracker-data";
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const DAY_NUMS = [1, 2, 3];
+const DAY_NUMS = [1, 2, 3, 4, 5, 6];
+const DAY_NAMES = {
+  1: "Push A",
+  2: "Pull A",
+  3: "Legs",
+  4: "Push B",
+  5: "Pull B",
+  6: "Skills"
+};
 
 function emptyExerciseList() {
   return [];
@@ -364,12 +372,18 @@ function defaultState() {
       1: [],
       2: [],
       3: [],
+      4: [],
+      5: [],
+      6: [],
     },
     // Previous week's workouts — one list per day
     previous: {
       1: [],
       2: [],
       3: [],
+      4: [],
+      5: [],
+      6: [],
     },
   };
 }
@@ -494,8 +508,9 @@ function render() {
     tr.appendChild(el("td", { class: "day-label" + (day === today ? " today" : "") }, day));
     const notesInput = el("input", {
       type: "text", placeholder: "workout + notes",
-      value: state.week[day].notes,
-      oninput: (e) => { state.week[day].notes = e.target.value; queueSave(); }
+      value: day === "Sun" ? "Recovery Day" : state.week[day].notes,
+      oninput: (e) => { if (day !== "Sun") { state.week[day].notes = e.target.value; queueSave(); } },
+      readonly: day === "Sun"
     });
     tr.appendChild(el("td", {}, notesInput));
     tbodyW.appendChild(tr);
@@ -511,17 +526,17 @@ function render() {
   }, "↻ Move Current → Previous Week");
   app.appendChild(archiveBtn);
 
-  // ---- Day 1, 2, 3 panels, each with Current + Previous ----
+  // ---- Day 1-6 panels, each with Current + Previous ----
   DAY_NUMS.forEach(n => {
-    app.appendChild(el("div", { class: "section-divider" }, "Day " + n));
+    app.appendChild(el("div", { class: "section-divider" }, DAY_NAMES[n]));
     app.appendChild(renderWorkoutPanel({
-      title: "Day " + n,
+      title: DAY_NAMES[n],
       exercises: state.current[n],
       previous: false,
       dayNum: n,
     }));
     app.appendChild(renderWorkoutPanel({
-      title: "Day " + n + " — Previous Week",
+      title: DAY_NAMES[n] + " — Previous Week",
       exercises: state.previous[n],
       previous: true,
       dayNum: n,
