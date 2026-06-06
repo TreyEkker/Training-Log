@@ -331,7 +331,7 @@
 <div class="save-indicator" id="saveIndicator">Saved</div>
 
 <h1>Training Log</h1>
-<div class="sub">— FIRE & STONE —</div>
+<div class="sub">— Iron & Intention —</div>
 
 <div id="app" class="loading">Loading your data…</div>
 
@@ -493,6 +493,7 @@ function render() {
   app.appendChild(el("div", { class: "date-pill" }, todayString()));
 
 
+
   // ---- Archive button ----
   const archiveBtn = el("button", {
     class: "archive-btn",
@@ -521,6 +522,7 @@ function render() {
   const footer = el("div", { class: "footer-actions" }, [
     el("button", { onclick: resetCurrent }, "Reset Current"),
     el("button", { onclick: exportData }, "Export"),
+    el("button", { onclick: () => window.location.href = "phases.html" }, "Phases"),
   ]);
   app.appendChild(footer);
 }
