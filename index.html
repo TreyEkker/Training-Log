@@ -331,7 +331,7 @@
 <div class="save-indicator" id="saveIndicator">Saved</div>
 
 <h1>Training Log</h1>
-<div class="sub">— Iron & Intention —</div>
+<div class="sub">— FIRE & STONE —</div>
 
 <div id="app" class="loading">Loading your data…</div>
 
@@ -492,32 +492,6 @@ function render() {
   // ---- Today date pill ----
   app.appendChild(el("div", { class: "date-pill" }, todayString()));
 
-  // ---- Weekly notes table ----
-  const weekPanel = el("div", { class: "panel" });
-  weekPanel.appendChild(el("h2", {}, "This Week"));
-  const weekTable = el("table");
-  const theadW = el("thead", {}, el("tr", {}, [
-    el("th", {}, "Day"),
-    el("th", {}, "Notes"),
-  ]));
-  weekTable.appendChild(theadW);
-  const tbodyW = el("tbody");
-  const today = todayDayName();
-  DAYS.forEach(day => {
-    const tr = el("tr");
-    tr.appendChild(el("td", { class: "day-label" + (day === today ? " today" : "") }, day));
-    const notesInput = el("input", {
-      type: "text", placeholder: "workout + notes",
-      value: day === "Sun" ? "Recovery Day" : state.week[day].notes,
-      oninput: (e) => { if (day !== "Sun") { state.week[day].notes = e.target.value; queueSave(); } },
-      readonly: day === "Sun"
-    });
-    tr.appendChild(el("td", {}, notesInput));
-    tbodyW.appendChild(tr);
-  });
-  weekTable.appendChild(tbodyW);
-  weekPanel.appendChild(weekTable);
-  app.appendChild(weekPanel);
 
   // ---- Archive button ----
   const archiveBtn = el("button", {
